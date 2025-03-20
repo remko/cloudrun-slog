@@ -23,6 +23,9 @@ h := slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{
   AddSource: true,
   Level:     slog.LevelDebug,
   ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+    if groups != nil {
+      return a
+    }
     if a.Key == slog.MessageKey {
       a.Key = "message"
     } else if a.Key == slog.SourceKey {

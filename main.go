@@ -65,6 +65,10 @@ func NewCloudLoggingHandler() *CloudLoggingHandler {
 		AddSource: true,
 		Level:     slog.LevelDebug,
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+			// Only replace top-level attributes
+			if groups != nil {
+				return a
+			}
 			if a.Key == slog.MessageKey {
 				a.Key = "message"
 			} else if a.Key == slog.SourceKey {
